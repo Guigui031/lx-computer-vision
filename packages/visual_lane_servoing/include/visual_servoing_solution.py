@@ -30,7 +30,7 @@ def get_steer_matrix_left_lane_markings(shape: Tuple[int, int]) -> np.ndarray:
     if max_val != 0:
         steer_unit /= max_val
 
-    steer_matrix_left_lane[:, :width] = steer_unit # CHANGE ME
+    steer_matrix_left_lane[:, :width] = -2 * steer_unit # CHANGE ME
 
     return steer_matrix_left_lane
 
@@ -59,7 +59,7 @@ def get_steer_matrix_right_lane_markings(shape: Tuple[int, int]) -> np.ndarray:
     if max_val != 0:
         steer_unit /= max_val
 
-    steer_matrix_right_lane[:, width:] = steer_unit # CHANGE ME
+    steer_matrix_right_lane[:, width:] = 1 * steer_unit # CHANGE ME
 
     return steer_matrix_right_lane
 
@@ -75,9 +75,9 @@ def detect_lane_markings(image: np.ndarray, projector: GroundProjector) -> Tuple
 
     sigma = 8  # CHANGE ME - Gaussian blur sigma
     threshold = 10  # CHANGE ME - minimum threshold for gradiant magnitude
-    white_lower_hsv = np.array([0, 0, 180])  # CHANGE ME - color thresholds
+    white_lower_hsv = np.array([0, 0, 150])  # CHANGE ME - color thresholds
     white_upper_hsv = np.array([179, 60, 255])  # CHANGE ME
-    yellow_lower_hsv = np.array([15, 80, 100])  # CHANGE ME
+    yellow_lower_hsv = np.array([15, 30, 100])  # CHANGE ME
     yellow_upper_hsv = np.array([35, 255, 255])  # CHANGE ME
 
     h, w, _ = image.shape
@@ -90,7 +90,7 @@ def detect_lane_markings(image: np.ndarray, projector: GroundProjector) -> Tuple
     # Most of our operations will be performed on the grayscale version
     imggray = cv2.cvtColor(imgbgr, cv2.COLOR_BGR2GRAY)
 
-    horizon = 270
+    horizon = 300
     if projector is not None:
         far_away_point_ground = GroundPoint(x=10000000, y=0)
         normalized_vector = projector.ground2vector(far_away_point_ground)
